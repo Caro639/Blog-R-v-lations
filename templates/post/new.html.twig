@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un article
+{% endblock %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-md-10">
+				<div class="text-center mb-4">
+					<h1 class="fw-bold">Créer un article</h1>
+					<p class="text-muted">Partagez vos connaissances avec la communauté</p>
+				</div>
+
+				<div class="card shadow-sm">
+					<div class="card-body p-4">
+						{{ include('post/_form.html.twig') }}
+					</div>
+				</div>
+
+				<div class="text-center mt-3">
+					<a href="{{ path('app_profil_post', { id: app.user.id }) }}" class="btn btn-outline-secondary">
+						<i class="bi bi-arrow-left"></i>
+						Retour à la liste
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+new TomSelect("#post_form_categorie", {maxItems: 5});
+});
+document.addEventListener('DOMContentLoaded', function () {
+if (window.reinitializeTomSelect) {
+window.reinitializeTomSelect();
+}
+});
+	</script>
+{% endblock %}

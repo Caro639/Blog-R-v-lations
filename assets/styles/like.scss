@@ -1,0 +1,28 @@
+/* Système de likes */
+.like-btn {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.like-empty {
+    color: #6c757d; /* Gris Bootstrap */
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #495057; /* Gris plus foncé au hover */
+    }
+}
+
+.like-filled {
+    color: #131112ff; /* Noir défini dans le template */
+    transition: color 0.3s ease;
+}

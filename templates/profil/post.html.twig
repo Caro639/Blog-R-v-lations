@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos articles
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-purple text-center m-5">Vos articles</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Slug</th>
+				<th>Content</th>
+				<th>Image</th>
+				<th>CreatedAt</th>
+				<th>UpdatedAt</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for post in posts %}
+				<tr>
+					<td>{{ post.id }}</td>
+					<td>{{ post.title }}</td>
+					<td>{{ post.slug }}</td>
+					<td>{{ post.content }}</td>
+					<td>{{ post.image }}</td>
+					<td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_post_show', {'id': post.id}) }}" class="button-green">Voir</a>
+						<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="button-green">Modifier</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<button type="button" class="button-purple btn">
+		<a href="{{ path('app_post_new') }}" class="btn btn-lg categorie text-white">Créer un nouvel article
+			<i class="bi bi-arrow-right"></i>
+		</a>
+	</button>
+
+{% endblock %}

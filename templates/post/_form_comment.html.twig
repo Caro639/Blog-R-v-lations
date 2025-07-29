@@ -1,0 +1,119 @@
+{% if commentForm is not null %}
+	<!-- Section collapsible pour les connectés -->
+	<div class="border-0">
+		<button class="btn btn-link w-100 text-start p-2 text-decoration-none border rounded hover-effect success-hover success-focus" type="button" data-bs-toggle="collapse" data-bs-target="#commentForm" aria-expanded="false" aria-controls="commentForm">
+			<div class="d-flex justify-content-between align-items-center">
+				<span class="text-dark fw-medium">
+					<i class="bi bi-chat-left-text me-2 text-success"></i>
+					Laisser un commentaire
+				</span>
+				<i class="bi bi-chevron-down text-success transition-icon" id="commentIcon"></i>
+			</div>
+		</button>
+
+		<div class="collapse mt-3" id="commentForm">
+			<div class="bg-light rounded border p-3">
+				{{ form_start(commentForm) }}
+				<div class="mb-3">
+					{{ form_label(commentForm.content, 'Votre commentaire', {'label_attr': {'class': 'form-label'}}) }}
+					{{ form_widget(commentForm.content, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Partagez votre avis sur cet article...'}}) }}
+					{{ form_errors(commentForm.content) }}
+				</div>
+
+				<div class="d-grid">
+					<button type="submit" class="btn" style="background-color: #6d922d; color: white;">
+						<i class="bi bi-chat-left-text"></i>
+						Publier le commentaire
+					</button>
+				</div>
+				{{ form_end(commentForm) }}
+			</div>
+		</div>
+	</div>
+{% else %}
+	<!-- Section collapsible pour les non-connectés -->
+	<div class="border-0">
+		<button class="btn btn-link w-100 text-start p-2 text-decoration-none border rounded hover-effect" type="button" data-bs-toggle="collapse" data-bs-target="#loginPrompt" aria-expanded="false" aria-controls="loginPrompt">
+			<div class="d-flex justify-content-between align-items-center">
+				<span class="text-dark fw-medium">
+					<i class="bi bi-person-plus me-2 text-primary"></i>
+					Connectez-vous pour commenter
+				</span>
+				<i class="bi bi-chevron-down text-primary transition-icon" id="collapseIcon"></i>
+			</div>
+		</button>
+
+		<div class="collapse mt-3" id="loginPrompt">
+			<div class="text-center py-4 bg-light rounded border">
+				<div class="mb-3">
+					<i class="bi bi-person-plus display-6 text-primary"></i>
+				</div>
+				<h6 class="text-primary mb-2">Rejoignez la discussion !</h6>
+				<p class="text-muted mb-3 small">
+					Vous devez être connecté pour laisser un commentaire sur cet article.
+				</p>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-center">
+					<a href="{{ path('app_login') }}" class="btn btn-primary btn-sm">
+						<i class="bi bi-box-arrow-in-right"></i>
+						Se connecter
+					</a>
+					<a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-sm">
+						<i class="bi bi-person-plus"></i>
+						S'inscrire
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- CSS et JavaScript pour les animations -->
+	<style>
+		.hover-effect:hover {
+			background-color: #f8f9fa !important;
+			border-color: #0d6efd !important;
+		}
+
+		.hover-effect.success-hover:hover {
+			border-color: #198754 !important;
+		}
+
+		.transition-icon {
+			transition: transform 0.3s ease;
+		}
+
+		.btn-link:focus {
+			box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+		}
+
+		.btn-link.success-focus:focus {
+			box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+		}
+	</style>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () { // Fonction pour gérer les animations d'icônes
+function setupCollapseIcon(collapseId, iconId) {
+const collapseElement = document.getElementById(collapseId);
+const icon = document.getElementById(iconId);
+
+if (collapseElement && icon) {
+collapseElement.addEventListener('shown.bs.collapse', function () {
+icon.classList.remove('bi-chevron-down');
+icon.classList.add('bi-chevron-up');
+icon.style.transform = 'rotate(180deg)';
+});
+
+collapseElement.addEventListener('hidden.bs.collapse', function () {
+icon.classList.remove('bi-chevron-up');
+icon.classList.add('bi-chevron-down');
+icon.style.transform = 'rotate(0deg)';
+});
+}
+}
+
+// Setup pour les deux sections
+setupCollapseIcon('commentForm', 'commentIcon');
+setupCollapseIcon('loginPrompt', 'collapseIcon');
+});
+	</script>
+{% endif %}

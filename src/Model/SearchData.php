@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Model;
+
+class SearchData
+{
+    /**
+     * @var int *
+     */
+    public $page = 1;
+
+    /**
+     * @var string *
+     */
+    public ?string $q = '';
+
+    /**
+     * @var array
+     */
+    public $categories = [];
+
+    // other properties and methods
+
+}

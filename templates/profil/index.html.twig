@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil utilisateur
+{% endblock %}
+
+{% block body %}
+	<section class="section-profil">
+		<div class="container py-5">
+			<div class="row">
+				<div class="col">
+					<nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+						<ol class="breadcrumb mb-0">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}" class="text-purple">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_profil_post', { id: app.user.id }) }}" class="text-purple">Vos articles</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Votre compte
+								{{ app.user.nickname }}</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							{% if app.user %}
+								<img src="{{ asset('image/file/' ~ user.photo) }}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+							{% else %}
+								<img src="{{ asset('images/profil.png') }}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+							{% endif %}
+							<h5 class="my-3">{{ user.firstname }}</h5>
+							<p class="text-muted mb-1">{{ user.lastname }}</p>
+							{# <p class="text-muted mb-4">{{ user.address }}</p> #}
+							<div class="d-flex justify-content-center mb-2">
+								<button type="button" data-mdb-button-init data-mdb-ripple-init class="button-purple btn">
+									<a class="dropdown-item" href="{{ path('app_profil_edit', { id: app.user.id }) }}">Modifier mon profil</a>
+								</button>
+								{# <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Message</button> #}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card mb-4">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Nom</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ user.lastname }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Prénom</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ user.firstname }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Email</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ user.email }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Phone</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">(097) 234-5678</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

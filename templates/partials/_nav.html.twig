@@ -1,0 +1,127 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	<div class="container px-4 px-lg-5">
+		<a class="navbar-brand" href="{{ path('app_home') }}">Blog Révélations</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">A propos</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catégories</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="{{ path('app_categorie') }}">Toutes les catégories</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_categorie_posts') }}">Articles par catégories</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider"/>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_post_index') }}">Les derniers articles</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider"/>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Préféré</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Populaires</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Nouveautés</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownCompte" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Compte client</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li class="text-center">
+							Compte client
+						</li>
+						<li>
+							<hr class="dropdown-divider"/>
+						</li>
+						{% if app.user %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_profil', { id: app.user.id }) }}">Mon profil</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_profil_edit', { id: app.user.id }) }}">Modifier mon profil</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_profil_post', { id: app.user.id }) }}">Mes posts</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_post_new') }}">Ajouter un post</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_logout')}}">Se déconnecter</a>
+							</li>
+
+						{% else %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+							</li>
+						{% endif %}
+					</ul>
+				</li>
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownAdmin" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li class="text-center">Révélations</li>
+							<li>
+								<hr class="dropdown-divider"/>
+							</li>
+
+							<li>
+								<a class="dropdown-item" href="#" {# href="{{ path('admin_modify_index.modify')}}" #}>Administration</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" {# href="{{ path('admin')}}" #}>Dashboard</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" {# href="{{ path('admin_product_index.admin')}}" #}>Mes articles</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" {# href="{{ path('admin_product_add.admin')}}" #}>Ajouter des articles</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" {# href="{{ path('admin_users_index')}}" #}>Les utilisateurs</a>
+							</li>
+						</ul>
+					</li>
+				{% endif %}
+			</ul>
+
+			{# todo ajout photo profil #}
+			<form class="d-flex">
+				<button
+					class="btn btn-outline-light" type="submit">
+					{# <i class="bi-cart-fill me-1"></i> #}
+					{% if app.user %}
+						{% if app.user.photo %}
+							<img src="{{ asset('image/file/' ~ app.user.photo) }}" alt="avatar" class="rounded-circle img-fluid" style="width: 40px;">
+							<a href="{{ path('app_profil', { id: app.user.id }) }}" class="text-decoration-none text-reset">Profil</a>
+						{% endif %}
+					{% else %}
+						<i class="bi bi-person-circle"></i>
+					{% endif %}
+					{# <span class="badge bg-light text-white ms-1 rounded-pill" ></span>  #}
+				</button>
+			</form>
+		</div>
+	</div>
+</nav>

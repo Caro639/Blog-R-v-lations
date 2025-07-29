@@ -1,0 +1,254 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ category.name }}
+	- Révélations
+{% endblock %}
+
+{% block body %}
+	<!-- Breadcrumb -->
+	<nav aria-label="breadcrumb" class="bg-light py-3">
+		<div class="container">
+			<ol class="breadcrumb mb-0">
+				<li class="breadcrumb-item">
+					<a href="{{ path('app_home') }}" class="text-purple text-decoration-none">
+						<i class="bi bi-house"></i>
+						Accueil
+					</a>
+				</li>
+				<li class="breadcrumb-item">
+					<a href="{{ path('app_categorie') }}" class="text-purple text-decoration-none">Catégories</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+			</ol>
+		</div>
+	</nav>
+
+	<!-- En-tête de la catégorie -->
+	<header class="category-header py-5 mb-4">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-8">
+					<h1 class="display-4 fw-bold mb-3">{{ category.name }}</h1>
+					<p class="lead mb-0">
+						{% if posts|length > 0 %}
+							{{ posts|length }}
+							article{{ posts|length > 1 ? 's' : '' }}
+							disponible{{ posts|length > 1 ? 's' : '' }}
+						{% else %}
+							Aucun article disponible pour le moment
+						{% endif %}
+					</p>
+				</div>
+				<div class="col-lg-4 text-lg-end">
+					<div class="text-white-50">
+						<i class="bi bi-folder-fill display-1"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div
+		class="container">
+		<!-- Sous-catégories (si c'est une catégorie parent) -->
+		{% if category.categories|length > 0 %}
+			<section class="mb-5">
+				<div class="row">
+					<div class="col-12">
+						<h3 class="text-green fw-bold mb-4">
+							<i class="bi bi-grid-3x3-gap"></i>
+							Sous-catégories
+						</h3>
+						<div class="row">
+							{% for subcategory in category.categories %}
+								<div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+									<a href="{{ path('app_categorie_show', { id: subcategory.id }) }}" class="text-decoration-none">
+										<div class="card subcategory-badge h-100">
+											<div class="card-body text-center">
+												<i class="icon-folder bi bi-folder2 mb-2 text-purple"></i>
+												<h6 class="card-title fw-bold text-purple">{{ subcategory.name }}</h6>
+												<small class="text-muted">
+													{% set subPostsCount = subcategory.posts|length %}
+													{{ subPostsCount }}
+													article{{ subPostsCount != 1 ? 's' : '' }}
+												</small>
+											</div>
+										</div>
+									</a>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<hr class="my-5">
+			</section>
+		{% endif %}
+
+		<!-- Articles de cette catégorie -->
+		<section class="mb-5">
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h3 class="text-green fw-bold">
+					<i class="bi bi-journal-text"></i>
+					{% if category.categories|length > 0 %}
+						Tous les articles de "{{ category.name }}"
+					{% else %}
+						Articles dans "{{ category.name }}"
+					{% endif %}
+				</h3>
+
+				{% if posts|length > 0 %}
+					<div class="btn-group" role="group">
+						<input type="radio" class="btn-check" name="sortOption" id="sortDate" autocomplete="off" checked>
+						<label class="btn btn-outline-dark btn-sm" for="sortDate">
+							<i class="bi bi-calendar3"></i>
+							Plus récents
+						</label>
+
+						<input type="radio" class="btn-check" name="sortOption" id="sortTitle" autocomplete="off">
+						<label class="btn btn-outline-dark btn-sm" for="sortTitle">
+							<i class="bi bi-sort-alpha-down"></i>
+							Alphabétique
+						</label>
+					</div>
+				{% endif %}
+			</div>
+
+			{% if posts|length > 0 %}
+				<div class="row" id="postsContainer">
+					{% for post in posts %}
+						<div class="col-lg-4 col-md-6 mb-4 post-item" data-date="{{ post.createdAt|date('Y-m-d') }}" data-title="{{ post.title|lower }}">
+							<article
+								class="card h-100 shadow-sm post-card">
+								<!-- Image du post -->
+								<a href="{{ path('app_post_show', { id: post.id }) }}" class="text-decoration-none">
+									{% if post.image %}
+										<img class="card-img-top" src="{{ asset('image/file/' ~ post.image) }}" alt="{{ post.title }}" style="height: 200px; object-fit: cover;"/>
+									{% else %}
+										<img class="card-img-top" src="https://dummyimage.com/350x200/dee2e6/6c757d.jpg" alt="{{ post.title }}" style="height: 200px; object-fit: cover;"/>
+									{% endif %}
+								</a>
+
+								<!-- Corps de la carte -->
+								<div
+									class="card-body d-flex flex-column">
+									<!-- Date et catégories -->
+									<div class="d-flex justify-content-between align-items-center mb-2">
+										<small class="text-muted">
+											<i class="bi bi-calendar3"></i>
+											{{ post.createdAt|date('d/m/Y') }}
+										</small>
+										{% if post.categorie|length > 1 %}
+											<span class="badge-home-img badge">
+												+{{ post.categorie|length - 1 }}
+												catégorie{{ post.categorie|length > 2 ? 's' : '' }}
+											</span>
+										{% endif %}
+									</div>
+
+									<!-- Titre -->
+									<h5 class="card-title">
+										<a href="{{ path('app_post_show', { id: post.id }) }}" class="text-decoration-none text-dark">
+											{{ post.title }}
+										</a>
+									</h5>
+
+									<!-- Contenu (extrait) -->
+									<p class="card-text text-muted flex-grow-1">
+										{{ post.content|length > 120 ? post.content|slice(0, 120) ~ '...' : post.content }}
+									</p>
+
+									<!-- Footer de la carte -->
+									<div class="mt-auto">
+										<div class="d-flex justify-content-between align-items-center">
+											<small class="text-muted">
+												<i class="bi bi-person"></i>
+												{{ post.user.nickname }}
+											</small>
+											<a href="{{ path('app_post_show', { id: post.id }) }}" class="btn btn-outline-dark btn-sm">
+												Lire
+												<i class="bi bi-arrow-right"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</article>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<!-- Message si aucun post -->
+				<div class="text-center py-5">
+					<div class="mb-4">
+						<i class="bi bi-inbox display-1 text-muted"></i>
+					</div>
+					<h4 class="text-muted">Aucun article dans cette catégorie</h4>
+					<p class="text-muted mb-4">Les articles seront affichés ici une fois publiés.</p>
+					<div class="d-flex gap-2 justify-content-center">
+						<a href="{{ path('app_categorie') }}" class="btn btn-outline-dark">
+							<i class="bi bi-arrow-left"></i>
+							Voir toutes les catégories
+						</a>
+						<a href="{{ path('app_home') }}" class="button-purple btn">
+							<i class="bi bi-house"></i>
+							Retour à l'accueil
+						</a>
+					</div>
+				</div>
+			{% endif %}
+		</section>
+
+		<!-- Navigation -->
+		<nav class="py-4">
+			<div class="d-flex justify-content-between">
+				<a href="{{ path('app_categorie') }}" class="btn btn-outline-secondary">
+					<i class="bi bi-arrow-left"></i>
+					Toutes les catégories
+				</a>
+
+				{% if category.parent %}
+					<a href="{{ path('app_categorie_show', { id: category.parent.id }) }}" class="btn btn-outline-dark">
+						<i class="bi bi-arrow-up"></i>
+						Catégorie parent :
+						{{ category.parent.name }}
+					</a>
+				{% endif %}
+
+				<a href="{{ path('app_home') }}" class="button-purple btn">
+					<i class="bi bi-house"></i>
+					Accueil
+				</a>
+			</div>
+		</nav>
+	</div>
+
+	<!-- JavaScript pour le tri -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const sortOptions = document.querySelectorAll('input[name="sortOption"]');
+const postsContainer = document.getElementById('postsContainer');
+
+if (sortOptions.length > 0 && postsContainer) {
+sortOptions.forEach(option => {
+option.addEventListener('change', function () {
+const posts = Array.from(postsContainer.children);
+const sortType = this.id;
+
+posts.sort((a, b) => {
+if (sortType === 'sortDate') { // Tri par date (plus récent en premier)
+const dateA = new Date(a.dataset.date);
+const dateB = new Date(b.dataset.date);
+return dateB - dateA;
+} else if (sortType === 'sortTitle') { // Tri alphabétique
+return a.dataset.title.localeCompare(b.dataset.title);
+}
+});
+
+// Réorganiser les éléments
+posts.forEach(post => postsContainer.appendChild(post));
+});
+});
+}
+});
+	</script>
+{% endblock %}

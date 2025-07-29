@@ -1,0 +1,172 @@
+/* Styles personnalisés pour la page d'accueil */
+.header {
+    background: url("./images/peintre-en-batiment.jpg") no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+.home-h1 {
+    // background: $radiant-yellow;
+    // color: $color-purple;
+    margin-top: 200px;
+    font-family: Arial, sans-serif;
+}
+
+.home-h2 {
+    // background: $radiant-yellow;
+    // color: $color-purple;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 600;
+    font-size: 1.8em;
+    margin-bottom: 145px;
+    margin-top: 15px;
+}
+
+.img-home-header {
+    height: 350px;
+    object-fit: cover;
+}
+
+// button
+.button-green {
+    background-color: $color-green;
+    color: white;
+}
+
+.button-purple {
+    background-color: $color-purple;
+    color: white;
+}
+
+.button-purple:hover {
+    background-color: $color-purple;
+    color: white;
+}
+
+//img small card
+.img-small-card {
+    height: 200px;
+    object-fit: cover;
+}
+
+.img-profil {
+    width: 40px;
+}
+
+/* Pagination personnalisée */
+.pagination {
+    .page-link {
+        color: $color-purple;
+        border: 1px solid $color-purple;
+
+        &:hover {
+            color: $color-purple;
+            background-color: #f8f9fa;
+            border-color: $color-purple;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(109, 146, 45, 0.25);
+        }
+    }
+
+    .page-item.active .page-link {
+        background-color: $color-purple;
+        border-color: $color-purple;
+        color: white;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
+}
+
+.badge-home-img {
+    background: $color-purple;
+    color: white;
+}
+
+/* Featured Post Styles */
+.featured-post .card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.featured-post .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.featured-post .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.featured-post .card:hover .card-img-top {
+    transform: scale(1.02);
+}
+
+/* Regular Posts Grid */
+.post-grid .card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+}
+
+.post-grid .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Badge Styles */
+.badge.bg-outline-secondary {
+    background-color: transparent !important;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
+// .badge.bg-primary {
+//     background-color: #0d6efd;
+// }
+
+/* Category Badges */
+.category-badges .badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .featured-post .card-title {
+        font-size: 1.5rem;
+    }
+
+    .featured-post .btn-lg {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Card content alignment */
+.card-body.d-flex.flex-column {
+    flex: 1;
+}
+
+.card-body .mt-auto {
+    margin-top: auto !important;
+}
+
+/* Hover effects for links */
+/* .card a {
+    text-decoration: none;
+    color: inherit;
+} */
+
+/* .card:hover .card-title {
+    color: #0d6efd;
+    transition: color 0.2s ease;
+} */

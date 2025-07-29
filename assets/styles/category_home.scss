@@ -1,0 +1,69 @@
+#category-h1 {
+    margin-bottom: 145px;
+}
+
+#header-card-categorie {
+    background: $color-green;
+}
+
+.btn.btn-sm.categorie {
+    background-color: $color-purple;
+    color: white;
+}
+
+.text-purple {
+    color: $color-purple;
+}
+
+.text-green {
+    color: $color-green;
+}
+
+.button-outline-green {
+    color: $color-green;
+    // border: 1px solid $color-green;
+}
+// categorie show
+
+.category-header {
+    background: linear-gradient(135deg, #2f3138ff 0%, #9d188b 100%);
+    color: white;
+}
+
+.subcategory-badge {
+    transition: all 0.2s ease;
+    border: $color-purple 1px solid;
+}
+
+.subcategory-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.icon-folder {
+    font-size: 2rem;
+}
+
+.post-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: none;
+    overflow: hidden;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.post-card .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    font-weight: bold;
+}

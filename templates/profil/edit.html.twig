@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil
+{% endblock %}
+
+{% block body %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-md-10">
+				<div class="text-center mb-4">
+					<h1>Modifier mon profil</h1>
+				</div>
+
+				<div class="card shadow-sm">
+					<div class="card-body p-4">
+						{{ form_errors(registrationForm) }}
+
+						{{ form_start(registrationForm) }}
+
+						{{ form_row(registrationForm.lastname) }}
+						{{ form_row(registrationForm.firstname) }}
+						{{ form_row(registrationForm.nickname) }}
+						{{ form_row(registrationForm.email) }}
+						{{ form_row(registrationForm.photo) }}
+						{{ form_row(registrationForm.plainPassword,
+                        { label: 'Password' }) }}
+						{{ form_row(registrationForm.agreeTerms) }}
+
+						<button type="submit" class="btn btn-dark">Modifier</button>
+						{{ form_end(registrationForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
