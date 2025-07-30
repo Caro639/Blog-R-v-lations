@@ -162,8 +162,13 @@ final class PostController extends AbstractController
      * Edit an existing post by the author
      */
     #[Route('/edit/{id}', name: 'app_post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Post $post, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-    {
+    public function edit(
+        Request $request,
+        Post $post,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger
+    ): Response {
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // Ensure the post belongs to the current user
         if ($post->getUser() !== $this->getUser()) {

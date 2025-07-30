@@ -88,6 +88,11 @@ class Post
         $this->likes = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->title;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

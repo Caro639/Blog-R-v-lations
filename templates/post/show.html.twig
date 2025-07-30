@@ -26,7 +26,7 @@
 						{% if post.categorie|length > 0 %}
 							<div class="mb-2">
 								{% for category in post.categorie %}
-									<a class="badge bg-secondary text-decoration-none link-light" href="{{ path('app_home', {'category': category.id}) }}">{{ category.name }}</a>
+									<a class="badge badge-home-img text-decoration-none link-light" href="{{ path('app_home', {'category': category.id}) }}">{{ category.name }}</a>
 								{% endfor %}
 							</div>
 						{% endif %}

@@ -67,7 +67,7 @@
 								{% if lastPost.categorie|length > 0 %}
 									<div class="category-badges mb-3">
 										{% for category in lastPost.categorie %}
-											<a href="{{ path('app_home', {'category': category.id}) }}" class="badge bg-secondary text-decoration-none text-white me-1">{{ category.name }}</a>
+											<a href="{{ path('app_home', {'category': category.id}) }}" class="badge badge-home-img text-decoration-none text-white me-1">{{ category.name }}</a>
 										{% endfor %}
 									</div>
 								{% endif %}
@@ -106,7 +106,7 @@
 									{% if post.categorie|length > 0 %}
 										<div class="mb-2">
 											{% for category in post.categorie %}
-												<a href="{{ path('app_home', {'category': category.id}) }}" class="badge bg-secondary text-decoration-none text-white me-1">{{ category.name }}</a>
+												<a href="{{ path('app_home', {'category': category.id}) }}" class="badge badge-home-img text-decoration-none text-white me-1">{{ category.name }}</a>
 											{% endfor %}
 										</div>
 									{% endif %}
