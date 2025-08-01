@@ -1,6 +1,8 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 	<div class="container px-4 px-lg-5">
-		<a class="navbar-brand" href="{{ path('app_home') }}">Blog Révélations</a>
+		<a class="navbar-brand" href="{{ path('app_home') }}">Révélations
+			<img src="{{ asset('image/file/logo.svg') }}" alt="logo" class="logo img-fluid"/>
+		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -13,7 +15,7 @@
 					<a class="nav-link" href="#!">A propos</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catégories</a>
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nos articles</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li>
 							<a class="dropdown-item" href="{{ path('app_categorie') }}">Toutes les catégories</a>
@@ -24,9 +26,11 @@
 						<li>
 							<hr class="dropdown-divider"/>
 						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('app_post_index') }}">Les derniers articles</a>
-						</li>
+						{% if lastPost is defined and lastPost %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_post_show', { id: lastPost.id }) }}">Le dernier article</a>
+							</li>
+						{% endif %}
 						<li>
 							<hr class="dropdown-divider"/>
 						</li>
@@ -58,10 +62,16 @@
 								<a class="dropdown-item" href="{{ path('app_profil_edit', { id: app.user.id }) }}">Modifier mon profil</a>
 							</li>
 							<li>
+								<a class="dropdown-item" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+							</li>
+							<li>
 								<a class="dropdown-item" href="{{ path('app_profil_post', { id: app.user.id }) }}">Mes posts</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('app_post_new') }}">Ajouter un post</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_profil_comment', { id: app.user.id }) }}">Mes commentaires</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('app_logout')}}">Se déconnecter</a>
@@ -73,6 +83,9 @@
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -89,36 +102,27 @@
 							<li>
 								<a class="dropdown-item" href="{{ path('admin')}}">Administration</a>
 							</li>
-							<li>
-								<a class="dropdown-item" href="#" {# href="{{ path('admin_product_index.admin')}}" #}>Mes articles</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#" {# href="{{ path('admin_product_add.admin')}}" #}>Ajouter des articles</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#" {# href="{{ path('admin_users_index')}}" #}>Les utilisateurs</a>
-							</li>
 						</ul>
 					</li>
 				{% endif %}
 			</ul>
 
-			{# todo ajout photo profil #}
-			<form class="d-flex">
+			<div class="d-flex">
 				<button
 					class="btn btn-outline-light" type="submit">
 					{# <i class="bi-cart-fill me-1"></i> #}
 					{% if app.user %}
 						{% if app.user.photo %}
-							<img src="{{ asset('image/file/' ~ app.user.photo) }}" alt="avatar" class="rounded-circle img-fluid" style="width: 40px;">
-							<a href="{{ path('app_profil', { id: app.user.id }) }}" class="text-decoration-none text-reset">Profil</a>
+							<a href="{{ path('app_profil', { id: app.user.id }) }}" class="text-decoration-none text-reset">
+								<img src="{{ asset('image/file/' ~ app.user.photo) }}" alt="avatar" class="rounded-circle img-fluid" style="width: 40px;">
+							</a>
 						{% endif %}
 					{% else %}
 						<i class="bi bi-person-circle"></i>
 					{% endif %}
 					{# <span class="badge bg-light text-white ms-1 rounded-pill" ></span>  #}
 				</button>
-			</form>
+			</div>
 		</div>
 	</div>
 </nav>

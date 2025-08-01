@@ -46,7 +46,7 @@ class CommentCrudController extends AbstractCrudController
             //     ->hideOnForm()
             //     ->setFormTypeOption('disabled', 'disabled'),
             AssociationField::new('user')
-                ->setSortProperty('firstName')
+                ->setSortProperty('lastName')
                 ->setFormTypeOption('disabled', 'disabled'),
             AssociationField::new('post')
                 ->setSortProperty('title')

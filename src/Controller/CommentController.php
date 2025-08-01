@@ -24,6 +24,13 @@ final class CommentController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_comment_new', methods: ['GET', 'POST'])]
+    /**
+     * add a new comment to a post
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\Repository\PostRepository $postRepository
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -71,6 +78,14 @@ final class CommentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_comment_edit', methods: ['GET', 'POST'])]
+    /**
+     * this method allows a user to edit their comment.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Entity\Comment $comment
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\Repository\PostRepository $postRepository
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function edit(
         Request $request,
         Comment $comment,
@@ -80,6 +95,10 @@ final class CommentController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
+        if ($user !== $comment->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier ce commentaire.');
+            return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
+        }
 
         $post = $postRepository->find($request->attributes->get('id'));
 
@@ -93,12 +112,14 @@ final class CommentController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Commentaire modifié avec succès.');
+
+            return $this->redirectToRoute('app_post_show', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('comment/edit.html.twig', [
             'comment' => $comment,
-            'form' => $form,
+            'commentForm' => $form,
         ]);
     }
 
@@ -108,11 +129,17 @@ final class CommentController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        $user = $this->getUser();
+        if ($user !== $comment->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer ce commentaire.');
+            return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($comment);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Commentaire supprimé avec succès.');
+        return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
     }
 }

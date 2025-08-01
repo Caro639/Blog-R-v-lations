@@ -16,6 +16,9 @@
 							<li class="breadcrumb-item">
 								<a href="{{ path('app_profil_post', { id: app.user.id }) }}" class="text-purple">Vos articles</a>
 							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_profil_comment', { id: app.user.id }) }}" class="text-purple">Vos commentaires</a>
+							</li>
 							<li class="breadcrumb-item active" aria-current="page">Votre compte
 								{{ app.user.nickname }}</li>
 						</ol>

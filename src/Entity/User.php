@@ -69,6 +69,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likes')]
     private Collection $likes_user;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\ManyToMany(targetEntity: Comment::class, mappedBy: 'like_comment')]
+    private Collection $like_comment;
+
+    // /**
+    //  * @var Collection<int, Post>
+    //  */
+    // #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'dislikes_comment')]
+    // private Collection $dislikes_comment;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
@@ -84,6 +96,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes_user = new ArrayCollection();
+        $this->like_comment = new ArrayCollection();
+        // $this->dislikes_comment = new ArrayCollection();
     }
 
     public function __toString()
@@ -268,7 +282,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->comments->add($comment);
             $comment->setUser($this);
         }
-
         return $this;
     }
 
@@ -280,6 +293,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
@@ -311,15 +335,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
+    // Like comment
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getLikeComment(): Collection
     {
-        return $this->photo;
+        return $this->like_comment;
     }
 
-    public function setPhoto(?string $photo): static
+    public function addLikeComment(Comment $likeComment): static
     {
-        $this->photo = $photo;
+        if (!$this->like_comment->contains($likeComment)) {
+            $this->like_comment->add($likeComment);
+            $likeComment->addLikeComment($this);
+        }
 
         return $this;
     }
+
+    public function removeLikeComment(Comment $likeComment): static
+    {
+        if ($this->like_comment->removeElement($likeComment)) {
+            $likeComment->removeLikeComment($this);
+        }
+
+        return $this;
+    }
+
+    // dislike comment
+    // /**
+    //  * @return Collection<int, Comment>
+    //  */
+    // public function getDislikesUser(): Collection
+    // {
+    //     return $this->dislikes_user;
+    // }
+
+    // public function addDislikesUser(Comment $dislikesUser): static
+    // {
+    //     if (!$this->dislikes_user->contains($dislikesUser)) {
+    //         $this->dislikes_user->add($dislikesUser);
+    //         $dislikesUser->addDislike($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeDislikesUser(Comment $dislikesUser): static
+    // {
+    //     if ($this->dislikes_user->removeElement($dislikesUser)) {
+    //         $dislikesUser->removeDislike($this);
+    //     }
+
+    //     return $this;
+    // }
 }

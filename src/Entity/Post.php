@@ -71,7 +71,7 @@ class Post
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    #[ORM\PreUpdate]
+    #[ORM\PrePersist]
     public function setUpdatedAtValue()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -270,10 +270,20 @@ class Post
         return $this->likes->contains($user);
     }
 
+    /**
+     * get the number of likes for the post
+     * @return int
+     */
+    public function howManyLikes(): int
+    {
+        return count($this->likes);
+    }
+
     public function removeLike(User $like): static
     {
         $this->likes->removeElement($like);
 
         return $this;
     }
+
 }

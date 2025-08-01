@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\EditProfilFormType;
 use App\Form\RegistrationForm;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,8 +24,6 @@ final class ProfilController extends AbstractController
         // Inject dependencies if needed
     }
 
-
-    // todo css + formulaire + password change + email confirmation
     #[Route('/profil/{id}', name: 'app_profil')]
     /**
      * show user profile by ID
@@ -46,7 +46,6 @@ final class ProfilController extends AbstractController
         ]);
     }
 
-    // todo css
     #[Route('/profil/post/{id}', name: 'app_profil_post')]
     /**
      * show posts of owner user
@@ -75,7 +74,6 @@ final class ProfilController extends AbstractController
         ]);
     }
 
-    // todo gérer mot de passe oublié à part + mail confirm +css formulaire
     #[Route('/profil/edit/{id}', name: 'app_profil_edit')]
     /**
      * modifier son profil
@@ -102,15 +100,15 @@ final class ProfilController extends AbstractController
 
         $user = $this->userRepository->findOneBy(['id' => $id]);
 
-        $form = $this->createForm(RegistrationForm::class, $user);
+        $form = $this->createForm(EditProfilFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
+            // /** @var string $plainPassword */
+            // $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            // // encode the plain password
+            // $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $photo = $form->get('photo')->getData();
 
@@ -145,8 +143,45 @@ final class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
         return $this->render('profil/edit.html.twig', [
-            'registrationForm' => $form,
+            'editProfilForm' => $form,
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/profil/comment/{id}', name: 'app_profil_comment')]
+    /**
+     * Summary of showCommentUser
+     * @param string $id
+     * @param \App\Repository\PostRepository $postRepository
+     * @param \App\Repository\CommentRepository $commentRepository
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function showCommentUser(
+        string $id,
+        PostRepository $postRepository,
+        CommentRepository $commentRepository
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
+        if ($user === null) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $userId = $this->userRepository->findOneBy(['id' => $id]);
+
+        $posts = $postRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+
+        dump($posts);
+
+        $comments = $commentRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+
+        dump($comments);
+
+        return $this->render('profil/comment.html.twig', [
+            'user' => $userId,
+            'posts' => $posts,
+            'comments' => $comments,
         ]);
     }
 }

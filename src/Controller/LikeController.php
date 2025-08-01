@@ -20,21 +20,17 @@ final class LikeController extends AbstractController
             $manager->flush();
 
             return $this->json([
-                'success' => true,
-                'liked' => false,
-                'likeCount' => $post->getLikes()->count(),
-                'message' => 'Like removed'
-            ]);
-        } else {
-            $post->addLike($user);
-            $manager->flush();
-
-            return $this->json([
-                'success' => true,
-                'liked' => true,
-                'likeCount' => $post->getLikes()->count(),
-                'message' => 'Post liked'
+                'nbLike' => $post->howManyLikes(),
+                'message' => 'Like removed',
             ]);
         }
+        // else {
+        $post->addLike($user);
+        $manager->flush();
+
+        return $this->json([
+            'nbLike' => $post->howManyLikes(),
+            'message' => 'Post liked'
+        ]);
     }
 }

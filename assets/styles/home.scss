@@ -1,25 +1,74 @@
 /* Styles personnalisés pour la page d'accueil */
+/* button return up */
+#return {
+    display: inline-flex;
+    width: 100%;
+    height: 70px;
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: sticky;
+}
+.top {
+    --offset: -5000px;
+
+    position: sticky;
+    bottom: 20px;
+    margin-right: 10px;
+    place-self: end;
+    margin-top: calc(100vh + var(--offset));
+    z-index: 2;
+    width: 70px;
+    aspect-ratio: 1;
+    /* background: #3a2b58;
+  border-radius: 10px; */
+    font-size: 0;
+}
+.top:before {
+    content: "";
+    position: absolute;
+    inset: 30%;
+    transform: translateY(20%) rotate(-45deg);
+    border-top: 5px solid $color-purple;
+    border-right: 5px solid $color-purple;
+}
+
+// nav
+.logo {
+    width: 40px;
+    height: auto;
+}
+
 .header {
     background: url("./images/peintre-en-batiment.jpg") no-repeat;
     background-size: cover;
     background-position: bottom;
+    min-height: 540px;
+}
+
+.header-home {
+    position: static;
 }
 
 .home-h1 {
-    // background: $radiant-yellow;
-    // color: $color-purple;
-    margin-top: 200px;
-    font-family: Arial, sans-serif;
+    font-family: $font-family;
+    font-size: 2.5em;
+    margin-top: 190px;
+    color: $color-purple;
 }
 
 .home-h2 {
-    // background: $radiant-yellow;
-    // color: $color-purple;
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 600;
+    font-family: $font-family;
     font-size: 1.8em;
-    margin-bottom: 145px;
-    margin-top: 15px;
+    margin-bottom: 60px;
+    color: $color-purple;
+}
+
+h3,
+p,
+h4,
+a {
+    font-family: $font-family;
 }
 
 .img-home-header {

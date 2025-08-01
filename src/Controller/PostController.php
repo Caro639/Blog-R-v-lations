@@ -170,6 +170,7 @@ final class PostController extends AbstractController
     ): Response {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
         // Ensure the post belongs to the current user
         if ($post->getUser() !== $this->getUser()) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à modifier cet article.');
@@ -211,7 +212,7 @@ final class PostController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profil_post', ['id' => $user], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('post/edit.html.twig', [
@@ -228,10 +229,11 @@ final class PostController extends AbstractController
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
         // Ensure the post belongs to the current user
         if ($post->getUser() !== $this->getUser()) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cet article.');
-            return $this->redirectToRoute('app_post_index');
+            return $this->redirectToRoute('app_profil', ['id' => $user], Response::HTTP_SEE_OTHER);
         }
 
         if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->getPayload()->getString('_token'))) {
@@ -239,6 +241,6 @@ final class PostController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_profil_post', ['id' => $user], Response::HTTP_SEE_OTHER);
     }
 }

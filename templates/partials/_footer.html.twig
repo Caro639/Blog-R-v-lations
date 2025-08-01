@@ -1,6 +1,14 @@
 <!-- Footer-->
+<div id="return">
+	<a href="#" class="top">Back to Top</a>
+</div>
 <footer class="py-5 bg-dark mt-5">
 	<div class="container">
-		<p class="m-0 text-center text-white">Copyright &copy; Révélations 2025</p>
+		<div class="d-flex p-2 mx-auto flex-column align-items-center">
+			<a href="{{ path('app_home') }}">
+				<img src="{{ asset('image/file/logo.svg') }}" alt="logo" class="logo img-fluid"/>
+			</a>
+			<p class="m-0 text-center text-white">Copyright &copy; Révélations 2025</p>
+		</div>
 	</div>
 </footer>

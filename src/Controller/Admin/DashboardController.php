@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Categorie;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
@@ -53,10 +54,12 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::linkToRoute('Retour au site', 'fa fa-globe', 'app_home');
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Articles', 'fa fa-newspaper', Post::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comment::class);
+        yield MenuItem::linkToCrud('Catégories', 'fa fa-tags', Categorie::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

@@ -11,27 +11,24 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-lg-8 col-md-10">
-				<div class="text-center mb-4">
+				<div class="text-center m-5">
 					<h1>Modifier mon profil</h1>
 				</div>
 
 				<div class="card shadow-sm">
 					<div class="card-body p-4">
-						{{ form_errors(registrationForm) }}
+						{{ form_errors(editProfilForm) }}
 
-						{{ form_start(registrationForm) }}
+						{{ form_start(editProfilForm) }}
 
-						{{ form_row(registrationForm.lastname) }}
-						{{ form_row(registrationForm.firstname) }}
-						{{ form_row(registrationForm.nickname) }}
-						{{ form_row(registrationForm.email) }}
-						{{ form_row(registrationForm.photo) }}
-						{{ form_row(registrationForm.plainPassword,
-                        { label: 'Password' }) }}
-						{{ form_row(registrationForm.agreeTerms) }}
+						{{ form_row(editProfilForm.lastname) }}
+						{{ form_row(editProfilForm.firstname) }}
+						{{ form_row(editProfilForm.nickname) }}
+						{{ form_row(editProfilForm.email) }}
+						{{ form_row(editProfilForm.photo) }}
 
-						<button type="submit" class="btn btn-dark">Modifier</button>
-						{{ form_end(registrationForm) }}
+						<button type="submit" class="button-purple btn mt-4">Modifier</button>
+						{{ form_end(editProfilForm) }}
 					</div>
 				</div>
 			</div>

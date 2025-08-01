@@ -24,7 +24,7 @@ class Comment
     private ?bool $isReply = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?comment $comment = null;
+    private ?Comment $comment = null;
 
     /**
      * @var Collection<int, Comment>
@@ -34,14 +34,26 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?post $post = null;
+    private ?Post $post = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'like_comment')]
+    private Collection $like_comment;
+
+    // /**
+    //  * @var Collection<int, User>
+    //  */
+    // #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'dislikes_user')]
+    // private Collection $dislikes;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue()
@@ -54,6 +66,8 @@ class Comment
         $this->createdAt = new \DateTimeImmutable();
         $this->isReply = false; // Default value for isReply
         $this->comments = new ArrayCollection();
+        $this->like_comment = new ArrayCollection();
+        // $this->dislikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,6 +173,44 @@ class Comment
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLikeComment(): Collection
+    {
+        return $this->like_comment;
+    }
+
+    public function addLikeComment(User $likeComment): static
+    {
+        if (!$this->like_comment->contains($likeComment)) {
+            $this->like_comment[] = $likeComment;
+        }
+
+        return $this;
+    }
+
+    public function isLikeCommentedByUser(User $user): bool
+    {
+        return $this->like_comment->contains($user);
+    }
+
+    /**
+     * get the number of likes for the post
+     * @return int
+     */
+    public function howManyLikeComment(): int
+    {
+        return count($this->like_comment);
+    }
+
+    public function removeLikeComment(User $likeComment): static
+    {
+        $this->like_comment->removeElement($likeComment);
 
         return $this;
     }

@@ -6,6 +6,12 @@
 {% block body %}
 	<h1 class="text-purple text-center m-5">Vos articles</h1>
 
+	<button type="button" class="button-purple btn mx-4 mb-4">
+		<a href="{{ path('app_post_new') }}" class="btn btn-lg categorie text-white">Créer un nouvel article
+			<i class="bi bi-arrow-right"></i>
+		</a>
+	</button>
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -30,8 +36,9 @@
 					<td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
-						<a href="{{ path('app_post_show', {'id': post.id}) }}" class="button-green">Voir</a>
-						<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="button-green">Modifier</a>
+						<a href="{{ path('app_post_show', {'id': post.id}) }}" type="button" class="btn btn-dark btn-sm">Voir</a>
+						<a href="{{ path('app_post_edit', {'id': post.id}) }}" type="button" class="btn btn-warning btn-sm mt-4">Modifier</a>
+						<a href="{{ path('app_post_delete', {'id': post.id}) }}" type="button" class="btn btn-danger btn-sm mt-4">Supprimer</a>
 					</td>
 				</tr>
 			{% else %}
@@ -42,10 +49,10 @@
 		</tbody>
 	</table>
 
-	<button type="button" class="button-purple btn">
-		<a href="{{ path('app_post_new') }}" class="btn btn-lg categorie text-white">Créer un nouvel article
-			<i class="bi bi-arrow-right"></i>
-		</a>
-	</button>
+	{# <button type="button" class="button-purple btn">
+					<a href="{{ path('app_post_new') }}" class="btn btn-lg categorie text-white">Créer un nouvel article
+						<i class="bi bi-arrow-right"></i>
+					</a>
+				</button> #}
 
 {% endblock %}
