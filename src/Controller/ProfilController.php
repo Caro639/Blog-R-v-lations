@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Form\EditProfilFormType;
-use App\Form\RegistrationForm;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -89,7 +88,6 @@ final class ProfilController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
-        UserPasswordHasherInterface $userPasswordHasher,
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 

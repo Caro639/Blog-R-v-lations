@@ -24,9 +24,15 @@
 					<td>{{ comment.isReply ? 'Yes' : 'No' }}</td>
 					<td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
-						{# <a href="{{ path('app_comment_show', {'id': comment.id}) }}">show</a> #}
+						{# Lien vers le post auquel appartient le commentaire #}
+						<a href="{{ path('app_post_show', {'id': comment.post.id}) }}" type="button" class="button-purple btn btn-sm mt-4">Voir le post</a>
 						<a href="{{ path('app_comment_edit', {'id': comment.id}) }}" type="button" class="btn btn-warning btn-sm mt-4">Modifier</a>
-						<a href="{{ path('app_comment_delete', {'id': comment.id}) }}" type="button" class="btn btn-danger btn-sm mt-4">Supprimer</a>
+
+						{# Formulaire de suppression avec CSRF (comme pour les posts) #}
+						<form method="post" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');" class="d-inline">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+							<button type="submit" class="btn btn-danger btn-sm mt-4">Supprimer</button>
+						</form>
 					</td>
 				</tr>
 			{% else %}

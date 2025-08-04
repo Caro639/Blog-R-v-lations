@@ -14,7 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 final class HomeController extends AbstractController
 {
-    // todo search bar
+
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
     /**
      * home of website with last posts and categories

@@ -1,4 +1,7 @@
 /* Styles personnalisés pour la page d'accueil */
+body {
+    min-height: $body-height;
+}
 /* button return up */
 #return {
     display: inline-flex;

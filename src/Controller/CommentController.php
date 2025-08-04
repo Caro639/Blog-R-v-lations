@@ -89,8 +89,7 @@ final class CommentController extends AbstractController
     public function edit(
         Request $request,
         Comment $comment,
-        EntityManagerInterface $entityManager,
-        PostRepository $postRepository
+        EntityManagerInterface $entityManager
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -100,15 +99,16 @@ final class CommentController extends AbstractController
             return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
         }
 
-        $post = $postRepository->find($request->attributes->get('id'));
+        // Récupérer le post depuis le commentaire existant
+        $post = $comment->getPost();
 
         $form = $this->createForm(CommentForm::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $comment->setUser($user);
-            $comment->setPost($post);
+            // Pas besoin de réassigner le user et le post car ils n'ont pas changé
+            // $comment->setUser($user);
+            // $comment->setPost($post);
 
             $entityManager->flush();
 
@@ -135,11 +135,14 @@ final class CommentController extends AbstractController
             return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
         }
 
+        $post = $comment->getPost();
+
         if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($comment);
             $entityManager->flush();
         }
         $this->addFlash('success', 'Commentaire supprimé avec succès.');
-        return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
+        // return $this->redirectToRoute('app_profil_comment', ['id' => $user], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_post_show', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
     }
 }

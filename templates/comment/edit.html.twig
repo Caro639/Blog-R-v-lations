@@ -4,12 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-purple text-center m-5">Modifier mon commentaire</h1>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-md-10">
+				<h1 class="text-purple text-center m-5">Modifier mon commentaire</h1>
 
-	{# {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }} #}
-	{{ include('post/comment.html.twig') }}
+				<div class="card shadow-sm">
+					<div
+						class="card-body p-4">
+						{# {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }} #}
+						{{ include('post/comment.html.twig') }}
+					</div>
+				</div>
 
-	<a href="{{ path('app_profil_comment', { id: app.user.id }) }}" type="button" class="btn btn-warning btn-sm mt-4">Retour à votre liste</a>
+				<a href="{{ path('app_profil_comment', { id: app.user.id }) }}" type="button" class="btn btn-warning btn-sm m-4">Retour à votre liste</a>
 
-	{{ include('comment/_delete_form.html.twig') }}
+				{{ include('comment/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

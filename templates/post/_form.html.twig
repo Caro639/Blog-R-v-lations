@@ -2,55 +2,20 @@
 
 {# {{ form_start(postForm) }} #}
 
-    {# {{ form_row(postForm.categorie) }} #}
+{# {{ form_row(postForm.categorie) }} #}
 
 {# {{ form_end(postForm) }} #}
-        <form name="post_form" method="post" enctype="multipart/form-data">
-    {{ form_row(postForm.title) }}
-    {{ form_row(postForm.content) }}
-            {# <div>
-                <label for="post_form_title" class="required">Titre de votre article</label>
-                <input type="text" id="post_form_title" name="post_form[title]" required="required" placeholder="Entrez un titre" class="form-control mt-4"/>
-            </div>
-            <div>
-                <label for="post_form_content" class="required">Description de votre article</label>
-                <textarea id="post_form_content" name="post_form[content]" required="required" placeholder="Contenu de votre article" class="form-control mt-4"></textarea>
-            </div> #}
-                <div>
-                    <label class="form-label mt-4 required" for="post_form_categorie">Catégorie</label>
-                    <select id="post_form_categorie" name="post_form[categorie][]" required="required" class="form-control mt-4" multiple="multiple">
-                        <option value="231">Plafond</option>
-                        <option value="232">Mur</option>
-                        <option value="233">Boiserie</option>
-                        <option value="234">Tapisserie</option>
-                        <option value="235">Haute Décoration</option>
-                        <option value="236">enduit de plafond</option>
-                        <option value="237" selected="selected">peinture de plafond</option>
-                        <option value="238">Plafond à poutres</option>
-                        <option value="239">Mur en plâtre</option>
-                        <option value="240">Mur en placo</option>
-                        <option value="241">Mur en peinture</option>
-                        <option value="242" selected="selected">Lambris</option>
-                        <option value="243">Parquet</option>
-                        <option value="244">Menuiseries</option>
-                        <option value="245" selected="selected">Toile de verre</option>
-                        <option value="246">Papier peint</option>
-                        <option value="247">Texture</option>
-                        <option value="248">Stuc</option>
-                        <option value="249">Fresque</option>
-                        <option value="250">Ornementation</option>
-                        <option value="251">Enduit décoratif</option>
-                        <option value="252">Peinture décorative</option>
-                        <option value="253">Marbré</option>
-                    </select>
-            </div>
-            <div>
-                <label for="post_form_image">Veuillez choisir des fichiers images uniquement</label>
-                <input type="file" id="post_form_image" name="post_form[image]"/>
-            </div>
-            <div>
-                <button type="submit" id="post_form_submit" name="post_form[submit]" class="btn btn-dark mt-4">Valider</button>
-            </div>
-            <input type="hidden" id="post_form__token" name="post_form[_token]" data-controller="csrf-protection" value="csrf-token"/>
-        </form>
-        {# {{ form_end(postForm) }} #}
+	<form name="post_form" method="post" enctype="multipart/form-data"> {{ form_row(postForm.title) }}
+	{{ form_row(postForm.content) }}
+	{{ form_row(postForm.categorie) }}
+	<div>
+		<label for="post_form_image">
+			Veuillez choisir des fichiers images uniquement</label>
+		<input type="file" id="post_form_image" name="post_form[image]"/>
+	</div>
+	<div>
+		<button type="submit" id="post_form_submit" name="post_form[submit]" class="btn btn-dark mt-4">Valider</button>
+	</div>
+	<input type="hidden" id="post_form__token" name="post_form[_token]" data-controller="csrf-protection" value="csrf-token"/>
+</form>
+{# {{ form_end(postForm) }} #}

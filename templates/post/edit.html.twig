@@ -38,6 +38,9 @@
 	{{ parent() }}
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
+new TomSelect("#post_form_categorie", {maxItems: 5});
+});
+document.addEventListener('DOMContentLoaded', function () {
 if (window.reinitializeTomSelect) {
 window.reinitializeTomSelect();
 }

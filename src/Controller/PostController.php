@@ -35,7 +35,6 @@ final class PostController extends AbstractController
         ]);
     }
 
-    // todo css
     /**
      * add a new post
      *
@@ -109,11 +108,17 @@ final class PostController extends AbstractController
         ]);
     }
 
-    // todo system like à refaire + slugger
+    // todo slugger
+    #[Route('/{id}', name: 'app_post_show', methods: ['GET', 'POST'])]
     /**
      * Show a single post with its comments and categories for all users
+     * @param \App\Repository\CategorieRepository $categorieRepository
+     * @param \App\Repository\CommentRepository $commentRepository
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\Entity\Post $post
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    #[Route('/{id}', name: 'app_post_show', methods: ['GET', 'POST'])]
     public function show(
         CategorieRepository $categorieRepository,
         CommentRepository $commentRepository,
@@ -157,11 +162,15 @@ final class PostController extends AbstractController
         ]);
     }
 
-    // todo css like new
+    #[Route('/edit/{id}', name: 'app_post_edit', methods: ['GET', 'POST'])]
     /**
      * Edit an existing post by the author
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Entity\Post $post
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \Symfony\Component\String\Slugger\SluggerInterface $slugger
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    #[Route('/edit/{id}', name: 'app_post_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Post $post,
@@ -221,26 +230,39 @@ final class PostController extends AbstractController
         ]);
     }
 
-    // todo css button delete
+    #[Route('/delete/{id}', name: 'app_post_delete', methods: ['POST'])]
     /**
      * Delete a post by the author
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Entity\Post $post
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    #[Route('/{id}', name: 'app_post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
+        $currentUser = $this->getUser();
+
         // Ensure the post belongs to the current user
-        if ($post->getUser() !== $this->getUser()) {
+        if ($post->getUser() !== $currentUser) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cet article.');
-            return $this->redirectToRoute('app_profil', ['id' => $user], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profil', ['id' => $currentUser], Response::HTTP_SEE_OTHER);
         }
 
+        // Vérification du token CSRF
         if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($post);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($post);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erreur lors de la suppression de l\'article.');
+            }
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
         }
 
-        return $this->redirectToRoute('app_profil_post', ['id' => $user], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_profil_post', ['id' => $currentUser], Response::HTTP_SEE_OTHER);
     }
 }
